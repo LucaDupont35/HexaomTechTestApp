@@ -11,7 +11,7 @@ const ContactTableRow = ({ contact, isSelected, onSelect }: {
         onClick={onSelect}
     >
         {columns.map((col) => (
-            <td key={col.key} className="p-3 text-left">{(contact as any)[col.key]}</td>
+            <td key={col.key} className="p-3 text-left">{(contact as never)[col.key]}</td>
         ))}
     </tr>
 );
