@@ -2,6 +2,7 @@
  import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
  import NavBar from "./components/nav/NavBar.tsx";
  import Header from "./components/header/Header.tsx";
+ import ContactPage from "./components/contact/ContactPage.tsx";
 
 
  export type ButtonProps = ComponentPropsWithoutRef<"button"> & {color?: string};
@@ -38,7 +39,7 @@ export const Greeting = (props: GreetingProps) => {
                          <Route path="/" element={<Header></Header>} />
                          <Route path="/academy" element={<Header></Header>} />
                          <Route path="/chat" element={<Header></Header>} />
-                         <Route path="/contacts" element={<Header></Header>} />
+                         <Route path="/contacts" element={<div><Header></Header><ContactPage></ContactPage></div>} />
                          <Route path="/ecommerce/orders" element={<Header></Header>} />
                          <Route path="/ecommerce/products" element={<Header></Header>} />
                          <Route path="/file-manager" element={<Header></Header>} />
