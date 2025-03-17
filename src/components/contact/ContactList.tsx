@@ -4,11 +4,14 @@ import { Contact } from "./types";
 import ContactTable from "./ContactTable";
 import Pagination from "./Pagination";
 
-const ContactList = ({ setContactCount }: { setContactCount: (count: number) => void }) => {
+const ContactList = ({ setContactCount, selectedContact, setSelectedContact }: {
+    setContactCount: (count: number) => void,
+    selectedContact: Contact | null,
+    setSelectedContact: (contact: Contact | null) => void
+}) => {
     const [contacts, setContacts] = useState<Contact[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [selectedContact, setSelectedContact] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -41,7 +44,8 @@ const ContactList = ({ setContactCount }: { setContactCount: (count: number) => 
     return (
         <div className="flex flex-col">
             <div className="flex-1 overflow-auto">
-                <ContactTable contacts={paginatedContacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />
+                <ContactTable contacts={paginatedContacts} setSelectedContact={setSelectedContact}
+                              selectedContact={selectedContact} />
             </div>
             <Pagination
                 currentPage={currentPage}
