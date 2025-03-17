@@ -1,21 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { Contact } from "./types";
 
-const AddContactModal = ({ isOpen, onClose, onSubmit }: {
-    isOpen: boolean,
-    onClose: () => void,
-    onSubmit: (contact: Contact) => void
+const ContactFormModal = ({
+                              isOpen,
+                              onClose,
+                              onSubmit,
+                              initialContact
+                          }: {
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: (contact: Contact) => void;
+    initialContact?: Contact;
 }) => {
-    const [formData, setFormData] = useState<Contact>({
-        id: Date.now(),
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        postalCode: "",
-        city: ""
-    });
+    const [formData, setFormData] = useState<Contact>(
+        initialContact || {
+            id: Date.now(),
+            firstName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: "",
+            postalCode: "",
+            city: "",
+        }
+    );
+
+    useEffect(() => {
+        if (initialContact) {
+            setFormData(initialContact);
+        }
+    }, [initialContact]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,6 +46,7 @@ const AddContactModal = ({ isOpen, onClose, onSubmit }: {
     return (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md relative">
+                {/* Bouton de fermeture */}
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
@@ -39,9 +54,9 @@ const AddContactModal = ({ isOpen, onClose, onSubmit }: {
                     <FaTimes className="w-5 h-5" />
                 </button>
 
-                {/* Titre */}
+                {/* Titre du formulaire */}
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-                    Ajouter un contact
+                    {initialContact ? "Modifier le contact" : "Ajouter un contact"}
                 </h2>
 
                 {/* Formulaire */}
@@ -49,28 +64,34 @@ const AddContactModal = ({ isOpen, onClose, onSubmit }: {
                     <div className="grid grid-cols-2 gap-4">
                         <input name="firstName" type="text" placeholder="Prénom"
                                className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                               value={formData.firstName}
                                onChange={handleChange} required
                         />
                         <input name="lastName" type="text" placeholder="Nom"
                                className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                               value={formData.lastName}
                                onChange={handleChange} required
                         />
                     </div>
                     <input name="email" type="email" placeholder="Email"
                            className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                           value={formData.email}
                            onChange={handleChange} required
                     />
                     <input name="phoneNumber" type="text" placeholder="Téléphone"
                            className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                           value={formData.phoneNumber}
                            onChange={handleChange} required
                     />
                     <div className="grid grid-cols-2 gap-4">
                         <input name="postalCode" type="text" placeholder="Code Postal"
                                className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                               value={formData.postalCode}
                                onChange={handleChange} required
                         />
                         <input name="city" type="text" placeholder="Ville"
                                className="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                               value={formData.city}
                                onChange={handleChange} required
                         />
                     </div>
@@ -86,7 +107,7 @@ const AddContactModal = ({ isOpen, onClose, onSubmit }: {
                         <button type="submit"
                                 className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
                         >
-                            Enregistrer
+                            {initialContact ? "Modifier" : "Enregistrer"}
                         </button>
                     </div>
                 </form>
@@ -95,4 +116,4 @@ const AddContactModal = ({ isOpen, onClose, onSubmit }: {
     );
 };
 
-export default AddContactModal;
+export default ContactFormModal;

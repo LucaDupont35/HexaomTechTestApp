@@ -1,7 +1,7 @@
 import { Contact } from "./types";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaUserEdit } from "react-icons/fa"; // Import des icônes
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaUserEdit } from "react-icons/fa";
 
-const ContactDetail = ({ contact }: { contact: Contact | null }) => {
+const ContactDetail = ({ contact, onEdit }: { contact: Contact | null, onEdit: () => void}) => {
     if (!contact) {
         return (
             <div>
@@ -21,7 +21,7 @@ const ContactDetail = ({ contact }: { contact: Contact | null }) => {
                         {contact.firstName} {contact.lastName}
                     </h2>
                     <div className="mt-auto flex justify-end p-4">
-                        <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                        <button onClick={onEdit} className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
                         text-gray-700 bg-white hover:bg-gray-100 transition duration-200">
                             <FaUserEdit className="w-4 h-4 text-gray-500" />
                             <span className="font-medium">Éditer</span>

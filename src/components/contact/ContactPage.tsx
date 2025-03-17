@@ -3,18 +3,46 @@ import ContactHeader from "./ContactHeader";
 import ContactList from "./ContactList";
 import ContactDetail from "./ContactDetail";
 import { Contact } from "./types";
-import AddContactModal from "./AddContactModal.tsx";
 import {ContactService} from "../../services/ContactService.ts";
 import AddContactButton from "./AddContactButton.tsx";
+import ContactFormModal from "./ContactFormModal.tsx";
 
 const ContactPage = () => {
+    const [contacts, setContacts] = useState<Contact[]>([]);
     const [contactCount, setContactCount] = useState(0);
     const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [contactToEdit, setContactToEdit] = useState<Contact | null>(null);
+
 
     const handleAddContact = async (contact: Contact) => {
-        await ContactService.addContact(contact);
-        setIsModalOpen(false);
+        try {
+            const newContact = await ContactService.addContact(contact);
+            setContacts([...contacts, newContact]);
+            setContactCount((prev) => prev + 1);
+            setIsModalOpen(false);
+        } catch (error) {
+            alert("Erreur lors de l'ajout du contact !");
+        }
+    };
+
+    const handleEditContact = async (updatedContact: Contact) => {
+        try {
+            const modifiedContact = await ContactService.updateContact(updatedContact);
+
+            if (!modifiedContact) {
+                throw new Error("Le contact mis à jour est invalide.");
+            }
+
+            setContacts((prevContacts) =>
+                prevContacts.map((c) => (c.id === modifiedContact.id ? modifiedContact : c))
+            );
+
+            setSelectedContact(modifiedContact);
+            setIsModalOpen(false);
+        } catch (error) {
+            alert("Erreur lors de la modification du contact !");
+        }
     };
 
     return (
@@ -33,14 +61,19 @@ const ContactPage = () => {
             </div>
             {selectedContact && (
                 <div className="w-1/3 border-l border-gray-300 bg-white">
-                    <ContactDetail contact={selectedContact} />
+                    <ContactDetail contact={selectedContact}
+                                   onEdit={() => {
+                        setIsModalOpen(true);
+                        setContactToEdit(selectedContact);
+                    }} />
                 </div>
             )}
 
-            <AddContactModal
+            <ContactFormModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={handleAddContact}
+                onSubmit={contactToEdit ? handleEditContact : handleAddContact}
+                initialContact={contactToEdit || undefined}
             />
         </div>
     );

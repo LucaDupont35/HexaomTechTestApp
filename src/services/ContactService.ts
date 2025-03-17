@@ -7,5 +7,9 @@ export const ContactService = {
     },
     async addContact(contact: Contact) {
         return await ContactRepository.addContact(contact);
+    },
+    async updateContact(updatedContact: Contact) {
+        return await ContactRepository.updateContact(updatedContact);
+
     }
 };
