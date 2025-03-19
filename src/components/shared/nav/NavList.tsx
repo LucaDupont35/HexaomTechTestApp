@@ -1,4 +1,4 @@
-import NavItem, { Item } from "./NavItem";
+import NavItem, { Item } from "./NavItem.tsx";
 
 export type ItemList = { items: Item[] };
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Contact} from "../components/contact/types.ts";
+import {Contact} from "../models/Contact.ts";
 
 const API_URL = "http://localhost:8000/api/contact";
 

@@ -1,5 +1,5 @@
 import { ContactRepository } from "../repositories/ContactRepository";
-import {Contact} from "../components/contact/types.ts";
+import {Contact} from "../models/Contact.ts";
 
 export const ContactService = {
     async getContacts() {

@@ -1,5 +1,6 @@
-import { Contact } from "./types";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaUserEdit } from "react-icons/fa";
+import {Contact} from "../../../models/Contact.ts";
+import Button from "../../shared/button/Button.tsx";
 
 const ContactDetail = ({ contact, onEdit }: { contact: Contact | null, onEdit: () => void}) => {
     if (!contact) {
@@ -17,15 +18,21 @@ const ContactDetail = ({ contact, onEdit }: { contact: Contact | null, onEdit: (
 
             <div className="p-4">
                 <div className="text-center p-4 border-b border-gray-300 flex justify-between items-center">
-                    <h2 className=" text-4xl font-bold text-gray-800 text-left p-4">
+                    <h2 className=" text-3xl font-bold text-gray-800 text-left p-4">
                         {contact.firstName} {contact.lastName}
                     </h2>
                     <div className="mt-auto flex justify-end p-4">
-                        <button onClick={onEdit} className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg shadow-sm
-                        text-gray-700 bg-white hover:bg-gray-100 transition duration-200">
-                            <FaUserEdit className="w-4 h-4 text-gray-500" />
-                            <span className="font-medium">Éditer</span>
-                        </button>
+                        <Button
+                            onClick={onEdit}
+                            label="Éditer"
+                            icon={<FaUserEdit className="w-4 h-4 text-gray-500" />}
+                            bgColor="bg-white"
+                            hoverColor="hover:bg-gray-100"
+                            textColor="text-gray-700"
+                            border="border border-gray-300"
+                            shadow="shadow-sm"
+                            rounded="rounded-lg"
+                        />
                     </div>
                 </div>
                 <div className="p-4 space-y-3">

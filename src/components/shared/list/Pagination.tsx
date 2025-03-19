@@ -1,4 +1,4 @@
-import { paginationOptions } from "./paginationOptions";
+import {paginationOptions} from "../../../config/paginationOptions.ts";
 
 const Pagination = ({ currentPage, totalPages, itemsPerPage, setItemsPerPage, onPageChange }: {
     currentPage: number,
